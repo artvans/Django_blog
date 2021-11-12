@@ -1,15 +1,20 @@
 from django.shortcuts import render
-
+from .models import Post
 # Create your views here.
 
 def index(request):
-    return render(request, 'core/index.html')
+    posts = Post.objects.all().order_by('-id')
+    data = {
 
-def post1(request):
-    return render(request, 'core/post1.html')
+        'post_list': posts,
+    }
+    print('============',posts)
+    return render(request, 'core/index.html', data)
 
-def post2(request):
-    return render(request, 'core/post2.html')
+def detail(request, id):
+    post = Post.objects.get(id=id)
+    data = {
 
-def post3(request):
-    return render(request, 'core/post3.html')
+        'post': post
+    }
+    return render(request, 'core/detail.html', data)
